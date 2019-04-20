@@ -1,0 +1,42 @@
+plugins {
+    id 'maven-publish'
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.30'
+}
+
+allprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+
+    version = '0.1.0'
+    group = "io.wiremap"
+    sourceCompatibility = JavaVersion.VERSION_11
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                version = 'DEV'
+                from components.java
+                afterEvaluate {
+                    groupId = group
+                    artifactId = jar.archiveBaseName
+                }
+            }
+        }
+        repositories {
+            mavenLocal()
+        }
+    }
+    
+}
